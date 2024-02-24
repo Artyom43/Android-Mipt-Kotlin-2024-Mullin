@@ -6,7 +6,7 @@ fun main() {
     val cached = mutableListOf(fPrev, fNext)
 
     run lab@{
-        repeat((n - 1).toInt()) {
+        (1 until n).forEach {
             val temp = fNext
             fNext = (fNext + fPrev) % m
             fPrev = temp
