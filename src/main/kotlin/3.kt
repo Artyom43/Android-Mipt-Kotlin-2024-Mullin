@@ -1,32 +1,37 @@
-class Tree(values: List<Int>) {
+class Tree {
 
-    private val root: Node
+    private var root: Node? = null
 
-    init {
-        root = Node(values.first())
-        values.minus(values.first()).forEach {
-            var currentRoot = root
-            while (
-                it < currentRoot.value && currentRoot.left != null ||
-                it >= currentRoot.value && currentRoot.right != null
-            ) {
-                currentRoot = if (it < currentRoot.value) {
-                    currentRoot.left!!
-                } else {
-                    currentRoot.right!!
+    fun insert(value: Int) {
+        if (root == null) {
+            root = Node(value)
+        } else {
+            root?.let {
+                var currentRoot = it
+                while (
+                    value < currentRoot.value && currentRoot.left != null ||
+                    value >= currentRoot.value && currentRoot.right != null
+                ) {
+                    currentRoot = if (value < currentRoot.value) {
+                        currentRoot.left!!
+                    } else {
+                        currentRoot.right!!
+                    }
                 }
-            }
 
-            if (it < currentRoot.value) {
-                currentRoot.left = Node(it)
-            } else {
-                currentRoot.right = Node(it)
+                if (value < currentRoot.value) {
+                    currentRoot.left = Node(value)
+                } else {
+                    currentRoot.right = Node(value)
+                }
             }
         }
     }
 
     override fun toString(): String {
-        return preOrderString(root, StringBuilder("")).trim()
+        return root?.let {
+            preOrderString(it, StringBuilder("")).trim()
+        } ?: ""
     }
 
     private fun preOrderString(root: Node, res: StringBuilder): String {
@@ -45,10 +50,10 @@ class Tree(values: List<Int>) {
 
 fun main() {
     val n = readln().toInt()
-    val nums = emptyList<Int>().toMutableList()
+    val tree = Tree()
     repeat(n) {
-        nums.add(readln().toInt())
+        tree.insert(readln().trim().toInt())
     }
 
-    println(Tree(nums))
+    println(tree)
 }
