@@ -1,6 +1,8 @@
 package zoo.animal
 
-class Horse(
+data class Horse(
     override val id: Int,
     override val height: Int
-) : Animal(), SoundMaker
+) : Animal(), SoundMaker {
+    override fun makeSound() = "Neigh-neigh!"
+}
